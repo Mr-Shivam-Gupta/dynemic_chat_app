@@ -6,7 +6,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Dynemic Chat App';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -21,25 +21,13 @@ createInertiaApp({
     },
 });
 
-Echo.private('messager')
-    .listen('MessageEvent', (e) => {
-        console.log('withOutSenderReceiver' + e);
-    });
-Echo.private('messager.1.2')
-    .listen('MessageEvent', (e) => {
-        console.log(e);
-    });
-
-
-
-// Echo.join('group_chat.1').here((user) => {
+// Echo.join('status-update').here((user) => {
 //     console.log(user);
 // }).joining((user) => {
-//     console.log(user.name);
+//     console.log("join: " + user.id);
 // }).leaving((user) => {
-//     console.log(user.name);
-// }).listen('group_chatEvent', (e) => {
-//     console.log(e);
-// }).error((error) => {
-//     console.error(error);
+//     console.log("leave: " +  user.id);
+// }).listen('StatusEvent', (e) => {
+//     console.log('Received status update event:', e);
 // });
+

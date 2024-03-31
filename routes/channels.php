@@ -18,12 +18,16 @@ use Illuminate\Support\Facades\Broadcast;
 // });
 
 
-Broadcast::channel('messager', function ($user) {
-    return !is_null($user);
+Broadcast::channel('status-update', function ($user) {
+    return $user;
 });
-Broadcast::channel('messager.{sender}.{receiver}', function ($user) {
-    return !is_null($user);
-});
+// Broadcast::channel('messager', function ($user) {
+//     return !is_null($user);
+// });
+
+// Broadcast::channel('messager.{sender}.{receiver}', function ($user) {
+//     return !is_null($user);
+// });
 
 // Broadcast::channel('group_chat.{roomId}', function ($user) {
 //     return ['id' => $user->id, 'name' => $user->name];

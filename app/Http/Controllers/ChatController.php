@@ -16,16 +16,20 @@ class ChatController extends Controller
     {
         $this->chat = $chat;
     }
-    
-    public function index(Request $request,?int $receiverId = null)
-    {
-
-        // $message = Message::where(' 'required|string',sender_id', $request->user()->id)->get();
-        $message = empty($receiverId) ? [] : $this->chat->getUserMessages((int)$request->user()->id ,(int) $receiverId);
-        return Inertia::render('Chat/Chat', ['messages' => $message,
-       'recentMessage' => $this->chat->getRecentUserWithMessage($request->user()->id)]);
-
+    public function index(){
+        $user = User::whereNOtIn('id',[auth()->user()->id])->get();
+        return Inertia::render('Chat/Chat',['users' =>$user]);
     }
+
+    // public function index(Request $request,?int $receiverId = null)
+    // {
+
+    //     // $message = Message::where(' 'required|string',sender_id', $request->user()->id)->get();
+    //     $message = empty($receiverId) ? [] : $this->chat->getUserMessages((int)$request->user()->id ,(int) $receiverId);
+    //     return Inertia::render('Chat/Chat', ['messages' => $message,
+    //    'recentMessage' => $this->chat->getRecentUserWithMessage($request->user()->id)]);
+
+    // }
 
 
 

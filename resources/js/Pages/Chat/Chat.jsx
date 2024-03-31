@@ -6,9 +6,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
 
-export default function Chat({ auth,messages,recentMessage}) {
-    console.log(messages);
-    console.log(recentMessage);
+export default function Chat({auth,users}) {
+    console.log(auth.user.id);
+    let sender_id =auth.user.id;
+    let receiver_id ;
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -17,7 +18,7 @@ export default function Chat({ auth,messages,recentMessage}) {
                <div className=" messanger">
                 <div className="messanger h-screen overflow-hidden bg-slate-500 ">
                     <div className="flex">
-                      <ChatSidebar recentMessage={recentMessage} />
+                      <ChatSidebar users={users} />
                         <div className="basis-4/6">
                             <div className="flex justify-center items-center h-screen">
                             <p className='font-bold text-gray-300 text-3xl'>Please select a user to chat...</p>

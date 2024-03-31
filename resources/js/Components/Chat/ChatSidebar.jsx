@@ -1,6 +1,25 @@
 import { Link } from "@inertiajs/react";
+import React, { useState, useEffect } from 'react';
 
-export default function ChatSidebar({recentMessage}) {
+
+export default function ChatSidebar({users , echo }) {
+    const [userStatus, setUserStatus] = useState({});
+   
+    useEffect(() => { 
+
+        Echo.join('status-update').here((user) => {
+            const statuses = {};
+            users.forEach(user => {
+                statuses[user.id] = false;
+                console.log('here : ' +user.id)
+            });
+        }).joining((user) => {
+             setUserStatus(prevStatus => ({ ...prevStatus, [user.id]: true }));
+        }).leaving((user) => {
+             setUserStatus(prevStatus => ({ ...prevStatus, [user.id]: false }));
+        });
+    });
+    
     return (
        <>
          <div className="basis-2/6 border-r border-slate-100 bg-white pt-3">
@@ -18,10 +37,9 @@ export default function ChatSidebar({recentMessage}) {
                                     </div>
                                 </div>
                             </div>
-
                             <div className="user-list h-screen overflow-y-auto">
-                            {recentMessage.map((user, index) => (
-                                <Link  key={index} href={`/chat/${user.user_id}`}className="flex px-5 py-3 transition hover:cursor-pointer hover:bg-slate-100 justify-between ">
+                            {users.map((user, index) => (
+                                <Link  key={index} href={`/chat/${user.id}`}className="flex px-5 py-3 transition hover:cursor-pointer hover:bg-slate-100 justify-between ">
                                     <div className="flex">
                                     <div className="pr-4">
                                         {user?.image !== undefined ? (
@@ -36,8 +54,14 @@ export default function ChatSidebar({recentMessage}) {
                                     </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <p className="text-sm">yesterday</p>
-                                        <p><span className="text-green-500 text-sm">seen</span></p>
+                                   
+                                    <p>
+                                <span className={userStatus[user.id] ? "text-green-500 text-sm" : "text-red-500 text-sm"}>
+                                    {userStatus[user.id] ? 'Online' : 'Offline'}
+                                </span>
+                            </p>
+
+                                        {/* <p><span className="text-green-500 text-sm">online</span></p> */}
                                     </div>
                                     
                                 </Link>
